@@ -1,0 +1,73 @@
+{
+    "incomplete_results": false,
+    "items": [
+        {
+            "active_lock_reason": null,
+            "assignee": null,
+            "assignees": [],
+            "author_association": "CONTRIBUTOR",
+            "body": "",
+            "closed_at": null,
+            "comments": 0,
+            "comments_url": "https://api.github.com/repos/invibeme/chekin-backend-core/issues/5548/comments",
+            "created_at": "2024-05-28T13:25:45Z",
+            "draft": false,
+            "events_url": "https://api.github.com/repos/invibeme/chekin-backend-core/issues/5548/events",
+            "html_url": "https://github.com/invibeme/chekin-backend-core/pull/5548",
+            "id": 2321066762,
+            "labels": [],
+            "labels_url": "https://api.github.com/repos/invibeme/chekin-backend-core/issues/5548/labels{/name}",
+            "locked": false,
+            "milestone": null,
+            "node_id": "PR_kwDOC3pwk85ww_UA",
+            "number": 5548,
+            "performed_via_github_app": null,
+            "pull_request": {
+                "diff_url": "https://github.com/invibeme/chekin-backend-core/pull/5548.diff",
+                "html_url": "https://github.com/invibeme/chekin-backend-core/pull/5548",
+                "merged_at": null,
+                "patch_url": "https://github.com/invibeme/chekin-backend-core/pull/5548.patch",
+                "url": "https://api.github.com/repos/invibeme/chekin-backend-core/pulls/5548"
+            },
+            "reactions": {
+                "+1": 0,
+                "-1": 0,
+                "confused": 0,
+                "eyes": 0,
+                "heart": 0,
+                "hooray": 0,
+                "laugh": 0,
+                "rocket": 0,
+                "total_count": 0,
+                "url": "https://api.github.com/repos/invibeme/chekin-backend-core/issues/5548/reactions"
+            },
+            "repository_url": "https://api.github.com/repos/invibeme/chekin-backend-core",
+            "score": 1,
+            "state": "open",
+            "state_reason": null,
+            "timeline_url": "https://api.github.com/repos/invibeme/chekin-backend-core/issues/5548/timeline",
+            "title": "[PLI-1198] Add age check for MOS housing in document_issue_date_spain",
+            "updated_at": "2024-05-28T17:41:45Z",
+            "url": "https://api.github.com/repos/invibeme/chekin-backend-core/issues/5548",
+            "user": {
+                "avatar_url": "https://avatars.githubusercontent.com/u/23125402?v=4",
+                "events_url": "https://api.github.com/users/Tolosa527/events{/privacy}",
+                "followers_url": "https://api.github.com/users/Tolosa527/followers",
+                "following_url": "https://api.github.com/users/Tolosa527/following{/other_user}",
+                "gists_url": "https://api.github.com/users/Tolosa527/gists{/gist_id}",
+                "gravatar_id": "",
+                "id": 23125402,
+                "login": "Tolosa527",
+                "node_id": "MDQ6VXNlcjIzMTI1NDAy",
+                "organizations_url": "https://api.github.com/users/Tolosa527/orgs",
+                "received_events_url": "https://api.github.com/users/Tolosa527/received_events",
+                "repos_url": "https://api.github.com/users/Tolosa527/repos",
+                "site_admin": false,
+                "starred_url": "https://api.github.com/users/Tolosa527/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/Tolosa527/subscriptions",
+                "type": "User",
+                "url": "https://api.github.com/users/Tolosa527"
+            }
+        }
+    ]
+}

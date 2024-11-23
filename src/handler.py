@@ -9,10 +9,11 @@
 # from src.clients.parser.openai_parser import OpenAIData
 # from src.clients.parser.jira_parser import JiraIssues
 # from src.clients.parser.github_parser import GitHubIssues
-from src.models.task import Task
+from src.models.task import Task, TaskResponse
 from src.settings import settings
 from sqlmodel import Session, select
 from src.logger import Logger
+from datetime import datetime
 
 log = Logger().get_logger(__name__)
 
@@ -75,9 +76,29 @@ class Handler:
         ...
 
     def add_task(self, message: str) -> Task:
-        task = Task(message=message)
+        current_datetime = datetime.now()
+        task = Task(text=message, date=current_datetime)
+        log.info(f"Adding task: {task}")
+        self._session.add(instance=task)
+        try:
+            self._session.commit()
+            log.info("Task committed successfully")
+        except Exception as e:
+            log.error("Error committing task: %s", e)
+            self._session.rollback()
+            raise
         return task
-        
-    def get_tasks(self, start_date: str, end_date: str) -> list[str]:
-        tasks = self._session.execute(select(Task))
-        return tasks
+
+    def get_tasks(
+        self,
+        start_date: str | None = None,
+        end_date: str | None = None
+    ) -> list[TaskResponse] | None:
+        start_date = datetime.strptime(start_date, "%Y-%m-%d") if start_date else None
+        end_date = datetime.strptime(end_date, "%Y-%m-%d") if end_date else None
+        query = select(Task)
+        if start_date and end_date:
+            query = query.where(Task.date >= start_date).where(Task.date <= end_date)
+        tasks = self._session.exec(query).all()
+        log.info(f"Tasks: {tasks}")
+        return [TaskResponse(text=task.text, date=task.date) for task in tasks]

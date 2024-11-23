@@ -1,0 +1,39 @@
+{
+    "info": {
+      "name": "FastAPI Tasks API",
+      "_postman_id": "fastapi-tasks-api",
+      "description": "Collection for testing the add_task endpoint.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Add Task",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"text\": \"Sample Task\",\n  \"date\": \"2023-10-01T12:00:00\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:8000/message",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "message"
+            ]
+          }
+        },
+        "response": []
+      }
+    ]
+  }

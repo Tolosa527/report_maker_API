@@ -10,6 +10,9 @@ __pycache__/
 config.json
 src/config.json
 
+# test database
+test_db
+
 # Distribution / packaging
 .Python
 build/

@@ -1,17 +1,16 @@
 from sqlmodel import Field, SQLModel
 from datetime import datetime
-from typing import Optional
+from pydantic import BaseModel
 
 class Task(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    date: Optional[str] = Field(default=None) 
+    id: int = Field(default=None, primary_key=True)
     text: str
-    
-    def __post_init__(self):
-        if self.date is None:
-            self.date = datetime.now().strftime("%Y-%m-%d")
-    
-    def __repr__(self):
-        return f"Task {self.text} {self.date}"
-    
-    
+    date: datetime
+
+
+class TaskResponse(BaseModel):
+    text: str
+    date: datetime
+
+    def __str__(self):
+        return f"Task => {self.text} at {self.date.strftime('%Y-%m-%d %H:%M:%S')}"

@@ -15,3 +15,30 @@ def read_root():
     return {"Hello": "World"}
 
 
+@app.post("/message")
+def add_task(task: str):
+    ...
+    
+
+@app.get("/tasks")
+def get_tasks(start_date: str, end_date: str):
+    ...
+    
+    
+@app.get("/reports")
+def get_report(start_date: str, end_date: str):
+    report = self._handle_report(
+        start_date=start_date,
+        end_date=end_date,
+        send_to_slack=False
+    )
+    return report
+    
+@app.get("/send_report")
+def send_report(start_date: str, end_date: str):
+    report = self._handle_report(
+        start_date=start_date,
+        end_date=end_date,
+        send_to_slack=True
+    )
+    return report

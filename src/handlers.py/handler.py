@@ -19,48 +19,10 @@ log = Logger().get_logger(__name__)
 
 class ServerHandler:
 
-    def __init__(self):
-        self.db = Database()
+    def __init__(self, session):
+        self._session = session
 
-    def handle_message(self, message: str) -> str:
-
-        if not message:
-            return "No message received"
-
-        if "add_task:" in message:
-            task = message.split("add_task: ")[1]
-            self.db.add_message(task)
-            return f"Task added: {task}"
-        elif "get_tasks:" in message:
-            start_date, end_date = message.split("get_tasks: ")[1].split(" - ")
-            tasks = self.db.get_messages(
-                start_date=start_date, end_date=end_date
-            )
-            return str(tasks)
-        elif "get_report" in message:
-            start_date, end_date = message.split("get_report: ")[1].split(" - ")
-            response = self._handle_report(
-                start_date=start_date,
-                end_date=end_date,
-                send_to_slack=False
-            )
-            if response:
-                return response
-            return "No report generated"
-        elif "send_slack_report" in message:
-            start_date, end_date = (
-                message.split("send_slack_report: ")[1].split(" - ")
-            )
-            report = self._handle_report(
-                start_date=start_date,
-                end_date=end_date,
-                send_to_slack=True
-            )
-            return send_slack_message(report)
-
-        return "Invalid message"
-
-    def _handle_report(
+    def handle_report(
         self,
         start_date: str,
         end_date: str,
@@ -109,3 +71,10 @@ class ServerHandler:
             return text
         else:
             return f"Report generated: {start_date} - {end_date}: {string_data}"
+
+
+    def add_task(task: str) -> str:
+        ...
+        
+    def get_tasks(start_date: str, end_date: str) -> list[str]:
+        ...

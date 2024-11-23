@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from sqlmodel import SQLModel, create_engine, Session
+from src.handler import Handler
+from src.models.task import Task
+from typing import Optional
 
 app = FastAPI()
 
@@ -16,18 +19,23 @@ def read_root():
 
 
 @app.post("/message")
-def add_task(task: str):
-    ...
+def add_task(task: Task):
+    handler = Handler(session=Session)
+    handler.add_task(task)
+    return {"task": task}
     
 
 @app.get("/tasks")
-def get_tasks(start_date: str, end_date: str):
-    ...
+def get_tasks(start_date: Optional[str] = None, end_date: Optional[str] = None):
+    handler = Handler(session=Session)
+    tasks = handler.get_tasks(start_date=start_date, end_date=end_date)
+    return tasks
     
     
 @app.get("/reports")
 def get_report(start_date: str, end_date: str):
-    report = self._handle_report(
+    handler = Handler(session=Session)
+    report = handler.handle_report(
         start_date=start_date,
         end_date=end_date,
         send_to_slack=False
@@ -36,7 +44,8 @@ def get_report(start_date: str, end_date: str):
     
 @app.get("/send_report")
 def send_report(start_date: str, end_date: str):
-    report = self._handle_report(
+    handler = Handler(session=Session)
+    report = handler.handle_report(
         start_date=start_date,
         end_date=end_date,
         send_to_slack=True

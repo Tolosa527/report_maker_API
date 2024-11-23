@@ -83,8 +83,4 @@ class Settings:
     def get_debug(self):
         return self.debug
 
-
-try:
-    settings = Settings()
-except Exception as e:
-    logger.error("Configuration error:", e)
+settings = Settings()

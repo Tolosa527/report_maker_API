@@ -43,7 +43,7 @@ def get_tasks(
 
 @app.get("/reports")
 def get_report(start_date: str, end_date: str):
-    handler = Handler(session=Session)
+    handler = Handler(session=Session(engine))
     report = handler.handle_report(
         start_date=start_date,
         end_date=end_date,

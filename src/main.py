@@ -1,20 +1,16 @@
 from fastapi import FastAPI
-from sqlmodel import SQLModel, create_engine, Session
+from fastapi.responses import Response
+
 from src.handler import Handler
 from src.models.task import TaskResponse
 from src.logger import Logger
+from src.database_manager import DatabaseManager
 
 log = Logger().get_logger(__name__)
 
 app = FastAPI()
-
-DATABASE_URL = "sqlite:///./test.db"
-engine = create_engine(DATABASE_URL)
-
-
-@app.on_event("startup")
-def on_startup():
-    SQLModel.metadata.create_all(engine)
+database_manager: DatabaseManager | None = None
+handler: Handler | None = None
 
 
 @app.get("/")
@@ -22,9 +18,21 @@ def read_root():
     return {"Hello": "World"}
 
 
+@app.on_event("startup")
+def startup_event():
+    log.info("Starting up...")
+    try:
+        global database_manager
+        database_manager = DatabaseManager()
+        global handler
+        handler = Handler(database_manager=database_manager)
+    except Exception as e:
+        log.error("Error starting up: %s", str(e))
+        raise e
+
+
 @app.post("/task", response_model=TaskResponse)
-def add_task(message: str) -> TaskResponse:
-    handler = Handler(session=Session(engine))
+def add_task(message: str):
     task = handler.add_task(message=message)
     log.info("Response from add_task: %s", str(task))
     return task
@@ -35,7 +43,6 @@ def get_tasks(
     start_date: str | None = None,
     end_date: str | None = None
 ) -> list[TaskResponse] | None:
-    handler = Handler(session=Session(engine))
     tasks = handler.get_tasks(start_date=start_date, end_date=end_date)
     log.info("Response from add_task: %s", tasks)
     return tasks
@@ -43,18 +50,16 @@ def get_tasks(
 
 @app.get("/reports")
 def get_report(start_date: str, end_date: str):
-    handler = Handler(session=Session(engine))
     report = handler.handle_report(
         start_date=start_date,
         end_date=end_date,
         send_to_slack=False
     )
-    return report
+    return Response(content=report, status_code=200)
 
 
 @app.get("/send_report")
 def send_report(start_date: str, end_date: str):
-    handler = Handler(session=Session(engine))
     report = handler.handle_report(
         start_date=start_date,
         end_date=end_date,

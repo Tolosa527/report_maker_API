@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from src.clients.parser.github_parser import GitHubIssues
 from src.clients.parser.jira_parser import JiraIssues
-from src.clients.parser.tasks_parser import Tasks
+from src.models.task import Task
 from src.logger import Logger
 
 
@@ -12,12 +12,12 @@ log = Logger().get_logger(__name__)
 class OpenAIData:
     github_data: GitHubIssues
     jira_data: JiraIssues
-    tasks: Tasks
+    tasks: list[Task]
 
     def order_by_date(self) -> dict:
         data: dict = {}
         log.info(f"Processing tasks: {self.tasks}")
-        for task in self.tasks.items:
+        for task in self.tasks:
             if task.date not in data:
                 data[task.date] = {
                     'github': [],

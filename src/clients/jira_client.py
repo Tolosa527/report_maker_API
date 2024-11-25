@@ -11,28 +11,23 @@ JIRA_URL = settings.get_jira_url
 logger = Logger().get_logger(__name__)
 
 
-def verify_date_format(start_date: str, end_date: str) -> bool:
-    try:
-        datetime.strptime(start_date, '%Y/%m/%d')
-        datetime.strptime(end_date, '%Y/%m/%d')
-        return True
-    except ValueError:
-        logger.error('Invalid date format. Please provide the date in YYYY/MM/DD format.')
-        return False
-
-
-def get_jira_data(username: str, start_date: str, end_date: str) -> dict:
-    
-    if not verify_date_format(start_date, end_date):
-        start_date = start_date.replace('-', '/')
-        end_date = end_date.replace('-', '/')
-    
+def get_jira_data(
+    username: str,
+    start_date: datetime,
+    end_date: datetime
+) -> dict:
     auth = HTTPBasicAuth(JIRA_USER, JIRA_API_TOKEN)
     headers = {"Accept": "application/json"}
+    jira_ed = (
+        (end_date+timedelta(days=1)).strftime('%Y/%m/%d')
+        if end_date
+        else start_date.strftime('%Y/%m/%d')
+    )
+    jira_sd = start_date.strftime('%Y/%m/%d')
     jql = (
         f'assignee = "{username}" '
-        + (f'AND updated >= startOfDay("-7d") ' if not start_date else f'AND updated >= "{start_date}" ')
-        + (f'AND updated <= endOfDay() ' if not end_date else f'AND updated <= "{end_date}" ')
+        + (f'AND updated >= startOfDay("-7d") ' if not jira_sd else f'AND updated >= "{jira_sd}" ')
+        + (f'AND updated <= endOfDay() ' if not jira_ed else f'AND updated <= "{jira_ed}" ')
         + 'ORDER BY updated DESC'
     )
     logger.debug(f'Querying Jira with JQL: {jql}')

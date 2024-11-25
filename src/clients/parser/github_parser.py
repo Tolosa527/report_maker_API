@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import List
+from src.clients.parser.filter import FilterType, Status
 
 
 @dataclass
@@ -71,3 +72,9 @@ class GitHubIssues:
         return {
             'issues': [issue.to_dict() for issue in self.issues]
         }
+        
+    def filter_by(
+        self,
+        filter_type: FilterType,
+    ):
+        pass

@@ -11,8 +11,6 @@ log = Logger().get_logger(__name__)
 class DatabaseManager:
     def __init__(self):
         self._session = Session(engine)
-
-    def __enter__(self):
         SQLModel.metadata.create_all(engine)
 
     def create_tables(self):

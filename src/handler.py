@@ -69,7 +69,7 @@ class Handler:
             participation_data=participation_data
         )
         string_data = json.dumps({
-                "tasks": str(db_tasks),
+                "tasks": db_tasks,
                 "github_data": github_issues.to_dict(),
                 "jira_data": jira_issues.to_dict()
             })
